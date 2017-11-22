@@ -5,6 +5,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var SubjectSchema = new Schema({
+    date:{type: Date,default: Date.now},
+    name:{type: String}
+})
 
 var VideoSchema = new Schema({
     Course_name: {
@@ -15,11 +19,7 @@ var VideoSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    subjects:{type:[{
-        date:{type: Date,default: Date.now},
-        name:{type: String}
-    }]},
-
+    subjects:[SubjectSchema]
 });
 
 module.exports = mongoose.model('Video', VideoSchema);
