@@ -5,10 +5,19 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var SubjectSchema = new Schema({
+var LessonSchema = new Schema({
     date:{type: Date,default: Date.now},
     name:{type: String}
 })
+
+
+var SubjectSchema = new Schema({
+    date:{type: Date,default: Date.now},
+    name:{type: String},
+    lessons:[LessonSchema]
+})
+
+
 
 var VideoSchema = new Schema({
     Course_name: {
@@ -23,3 +32,5 @@ var VideoSchema = new Schema({
 });
 
 module.exports = mongoose.model('Video', VideoSchema);
+module.exports = mongoose.model('Subject', SubjectSchema);
+module.exports = mongoose.model('Lesson', LessonSchema);

@@ -4,8 +4,28 @@
 'use strict';
 module.exports = function(app) {
     var video = require('../controllers/videoController');
+    /*****************************************************\
+     *                     REST  API
+     *------------------------------------------------------
+     * courses:
+     *             get all
+     *             create new
+     *             update by id
+     *             delete by id
+     *             get by id
+     * ------------------------------------------------------
+     * subjects:
+     *              get all subjeccts by course id
+     *
+     *
+     *
+     *
+     ******************************************************/
 
-    // todoList Routes
+
+
+
+
     app.route('/courses')
         .get(video.list_all_courses)
         .post(video.create_a_course);
@@ -18,6 +38,11 @@ module.exports = function(app) {
 
 
     app.route('/courses/subjects/:courseId/')
-        .get(video.read_subjects)
-        .post(video.add_subject);
+        .post(video.add_subject)
+        .get(video.get_subjects);
+
+    app.route('/courses/subjects/:courseId/:subjectId')
+        .get(video.get_subject)
+        .put(video.update_subject)
+        .delete(video.delete_subject);
 };
