@@ -3,10 +3,20 @@
  */
 'use strict';
 
+/*******************************************************\
+ *   Declare the Schemas the controller would use
+ *   Hyrarcy Video(course) -> Subject -> Lesson
+ /********************************************************/
 
 var mongoose = require('mongoose'),
     Video = mongoose.model('Video'),
-    Subject = mongoose.model('Subject');
+    Subject = mongoose.model('Subject'),
+    Lesson = mongoose.model('Lesson');
+
+
+/**********************************************
+ * Video (course) controllers)
+ **********************************************/
 
 exports.list_all_courses = function(req, res) {
     Video.find({}, function(err, course) {
@@ -15,9 +25,6 @@ exports.list_all_courses = function(req, res) {
         res.json(course);
     });
 };
-
-
-
 
 exports.create_a_course = function(req, res) {
     var new_video = new Video(req.body);
@@ -58,6 +65,11 @@ exports.delete_a_course = function(req, res) {
         res.json({ message: 'Course successfully deleted' });
     });
 };
+
+/**********************************************
+ * Subject controllers
+ **********************************************/
+
 
 exports.add_subject = function(req, res) {
     Video.findById({_id: req.params.courseId}, function (err, doc) {
@@ -127,3 +139,25 @@ exports.delete_subject = function(req, res) {
             res.send("success");
         });
 };
+
+/**********************************************
+ * Lesson controllers
+ **********************************************/
+
+exports.add_lessons = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        var new_lesson = new Lesson(req.body);
+        doc.subjects.id(req.params.subjectId).lessons.push(new_lesson);
+        doc.save();
+       // new_subject.save();
+
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.json({ message: 'lesson successfully created' });
+        }
+    });
+}
+
+

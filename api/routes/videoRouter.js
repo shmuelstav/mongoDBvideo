@@ -15,7 +15,13 @@ module.exports = function(app) {
      *             get by id
      * ------------------------------------------------------
      * subjects:
-     *              get all subjeccts by course id
+     *              get all subjects by course id
+     *              create new subject by course id
+     *              delete subject by course id
+     *              update subject by course id
+     *              get subject by course id
+     *--------------------------------------------------------
+     *
      *
      *
      *
@@ -45,4 +51,9 @@ module.exports = function(app) {
         .get(video.get_subject)
         .put(video.update_subject)
         .delete(video.delete_subject);
+
+    app.route('/courses/subjects/lessons/:courseId/:subjectId')
+        .post(video.add_lessons)
+        //.get(video.get_lessons);
+
 };
