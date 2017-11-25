@@ -112,16 +112,17 @@ exports.get_subject = function(req, res) {
 };
 
 exports.update_subject = function(req, res) {
-    Video.findById({_id: req.params.courseId}, function (err, doc) {
+
+   Video.findById({_id: req.params.courseId}, function (err, doc) {
         if (err) {
             res.send(err);
         }
         else {
-
-            var subject =  doc.subjects.id(req.params.subjectId) ;
-            subject.set(req.body);
-            doc.save().then(function(course) {
-                res.send(course);
+            //put here all the fields to update if there is more then one recommende to use var
+            doc.subjects.id(req.params.subjectId).name = req.body.name;
+            doc.save().then(function(subject) {
+                //console.log(doc);
+                res.send(subject);
             }).catch(function(err) {
                 console.log(err);
                 res.status(500).send(err);
@@ -146,18 +147,107 @@ exports.delete_subject = function(req, res) {
 
 exports.add_lessons = function(req, res) {
     Video.findById({_id: req.params.courseId}, function (err, doc) {
-        var new_lesson = new Lesson(req.body);
-        doc.subjects.id(req.params.subjectId).lessons.push(new_lesson);
-        doc.save();
-       // new_subject.save();
-
         if (err) {
             res.send(err);
         }
         else {
-            res.json({ message: 'lesson successfully created' });
+        var new_lesson = new Lesson(req.body);
+            try{
+                doc.subjects.id(req.params.subjectId).lessons.push(new_lesson);
+                doc.save();
+                res.json({ message: 'lesson successfully created' });
+            }
+            catch(err){
+                res.json({ message: 'no such subject' });
+            }
         }
     });
 }
 
+exports.all_lessons = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            try{
+                res.json( doc.subjects.id(req.params.subjectId).lessons);
+            }
+            catch(err){
+                res.json({ message: 'no such subject' });
+            }
+        }
+    });
+}
 
+exports.get_lesson = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            console.log(doc);
+            var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+            res.json(lesson);
+        }
+    });
+};
+
+exports.update_lesson = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+            //put here all the updates
+            lesson.name  = (req.body.name);
+            doc.save().then(function(course) {
+                res.send(lesson);
+            }).catch(function(err) {
+                console.log(err);
+                res.status(500).send(err);
+            });
+        }
+    });
+};
+
+
+/*
+exports.delete_lesson = function(req, res) {
+    Video.findOneAndUpdate(
+        {"_id": req.params.courseId,"subjects._id" : req.params.subjectId},
+        {$pull: {lessons: {_id: req.params.lessonId}}},
+        function(err, org) {
+            console.log(org);
+            if(err)  res.send(err);
+            res.send("success");
+        });
+};
+
+
+function remove(array, element) {
+    const index = array.indexOf(element);
+    array.splice(index, 1);
+}*/
+
+exports.delete_lesson = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+            //put here all the updates
+            var lessons = doc.subjects.id(req.params.subjectId).lessons;
+            var index = lessons.indexOf(lesson);
+            lessons.splice(index, 1);
+            doc.save().then(function(course) {
+                res.send(lesson);
+            }).catch(function(err) {
+                console.log(err);
+                res.status(500).send(err);
+            });
+        }
+    });
+};

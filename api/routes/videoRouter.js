@@ -21,7 +21,7 @@ module.exports = function(app) {
      *              update subject by course id
      *              get subject by course id
      *--------------------------------------------------------
-     *
+     *   lessons
      *
      *
      *
@@ -49,11 +49,16 @@ module.exports = function(app) {
 
     app.route('/courses/subjects/:courseId/:subjectId')
         .get(video.get_subject)
-        .put(video.update_subject)
+        .post(video.update_subject)
         .delete(video.delete_subject);
 
     app.route('/courses/subjects/lessons/:courseId/:subjectId')
         .post(video.add_lessons)
-        //.get(video.get_lessons);
+        .get(video.all_lessons);
+
+    app.route('/courses/subjects/lessons/:courseId/:subjectId/:lessonId')
+        .get(video.get_lesson)
+        .post(video.update_lesson)
+        .delete(video.delete_lesson);
 
 };
