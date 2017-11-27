@@ -61,4 +61,13 @@ module.exports = function(app) {
         .post(video.update_lesson)
         .delete(video.delete_lesson);
 
+    app.route('/courses/subjects/lessons/markers/:courseId/:subjectId/:lessonId')
+        .post(video.add_markers)
+        .get(video.all_markers);
+
+    app.route('/courses/subjects/lessons/markers/:courseId/:subjectId/:lessonId/:markerId')
+        .get(video.get_marker)
+        .post(video.update_marker)
+        .delete(video.delete_marker);
+
 };

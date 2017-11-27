@@ -5,9 +5,15 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var LessonSchema = new Schema({
+var MarkerSchema = new Schema({
     date:{type: Date,default: Date.now},
     name:{type: String}
+})
+
+var LessonSchema = new Schema({
+    date:{type: Date,default: Date.now},
+    name:{type: String},
+    markers:[MarkerSchema]
 })
 
 
@@ -34,3 +40,4 @@ var VideoSchema = new Schema({
 module.exports = mongoose.model('Video', VideoSchema);
 module.exports = mongoose.model('Subject', SubjectSchema);
 module.exports = mongoose.model('Lesson', LessonSchema);
+module.exports = mongoose.model('Marker', MarkerSchema);

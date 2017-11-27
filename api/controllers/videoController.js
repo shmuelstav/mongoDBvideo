@@ -11,7 +11,8 @@
 var mongoose = require('mongoose'),
     Video = mongoose.model('Video'),
     Subject = mongoose.model('Subject'),
-    Lesson = mongoose.model('Lesson');
+    Lesson = mongoose.model('Lesson'),
+    Marker = mongoose.model('Marker');
 
 
 /**********************************************
@@ -212,25 +213,6 @@ exports.update_lesson = function(req, res) {
     });
 };
 
-
-/*
-exports.delete_lesson = function(req, res) {
-    Video.findOneAndUpdate(
-        {"_id": req.params.courseId,"subjects._id" : req.params.subjectId},
-        {$pull: {lessons: {_id: req.params.lessonId}}},
-        function(err, org) {
-            console.log(org);
-            if(err)  res.send(err);
-            res.send("success");
-        });
-};
-
-
-function remove(array, element) {
-    const index = array.indexOf(element);
-    array.splice(index, 1);
-}*/
-
 exports.delete_lesson = function(req, res) {
     Video.findById({_id: req.params.courseId}, function (err, doc) {
         if (err) {
@@ -244,6 +226,98 @@ exports.delete_lesson = function(req, res) {
             lessons.splice(index, 1);
             doc.save().then(function(course) {
                 res.send(lesson);
+            }).catch(function(err) {
+                console.log(err);
+                res.status(500).send(err);
+            });
+        }
+    });
+};
+
+/**********************************************
+ * Marker controllers
+ **********************************************/
+
+exports.add_markers = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var new_marker = new Marker(req.body);
+            try{
+                doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers.push(new_marker);
+                doc.save();
+                res.json({ message: 'marker successfully created' });
+            }
+            catch(err){
+                res.json({ message: 'no such subject' });
+            }
+        }
+    });
+}
+
+exports.all_markers = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            try{
+                res.json( doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers);
+            }
+            catch(err){
+                res.json({ message: 'no such lesson' });
+            }
+        }
+    });
+}
+
+exports.get_marker = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+
+        else {
+            var marker =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers.id(req.params.markerId) ;
+            res.json(marker);
+        }
+    });
+};
+
+exports.update_marker = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var marker = doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers.id(req.params.markerId) ;
+            //put here all the updates
+            marker.name  = (req.body.name);
+            doc.save().then(function(course) {
+                res.send(marker);
+            }).catch(function(err) {
+                console.log(err);
+                res.status(500).send(err);
+            });
+        }
+    });
+};
+
+exports.delete_marker = function(req, res) {
+    Video.findById({_id: req.params.courseId}, function (err, doc) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var marker =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers.id(req.params.markerId)  ;
+            //put here all the updates
+            var markers = doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId).markers;
+            var index = markers.indexOf(marker);
+            markers.splice(index, 1);
+            doc.save().then(function(course) {
+                res.send(marker);
             }).catch(function(err) {
                 console.log(err);
                 res.status(500).send(err);
