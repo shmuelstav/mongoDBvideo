@@ -70,4 +70,6 @@ module.exports = function(app) {
         .post(video.update_marker)
         .delete(video.delete_marker);
 
+    app.route('/files')
+        .post(video.upload_files)
 };

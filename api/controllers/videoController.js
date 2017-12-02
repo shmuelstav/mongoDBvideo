@@ -1,6 +1,8 @@
 /**
  * Created by shmuel on 11/20/2017.
  */
+
+var storage = require('../video/storage.js');
 'use strict';
 
 /*******************************************************\
@@ -12,8 +14,9 @@ var mongoose = require('mongoose'),
     Video = mongoose.model('Video'),
     Subject = mongoose.model('Subject'),
     Lesson = mongoose.model('Lesson'),
-    Marker = mongoose.model('Marker');
-
+    Marker = mongoose.model('Marker'),
+    multer = require('multer');
+var upload = multer({ dest: './uploads/'}).single('upl');
 
 /**********************************************
  * Video (course) controllers)
@@ -239,6 +242,7 @@ exports.delete_lesson = function(req, res) {
  **********************************************/
 
 exports.add_markers = function(req, res) {
+
     Video.findById({_id: req.params.courseId}, function (err, doc) {
         if (err) {
             res.send(err);
@@ -325,3 +329,24 @@ exports.delete_marker = function(req, res) {
         }
     });
 };
+
+
+
+/**********************************************
+ * Upload files
+ **********************************************/
+
+
+exports.upload_files = function(req, res) {
+    upload(req, res, function (err) {
+        if (err) {
+            // An error occurred when uploading
+            res.send(err);
+        }
+        else{
+            var links = storage.upload_video(req.file.filename,req.file.originalname);
+            res.status(201).send(links);
+        }
+    });
+
+}
