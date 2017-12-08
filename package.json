@@ -19,6 +19,7 @@
     "mongoose": "^4.13.4",
     "node-unrar": "^0.1.5",
     "node-unrar-update": "^0.2.0",
+    "path": "^0.12.7",
     "unzip": "^0.1.11"
   }
 }
