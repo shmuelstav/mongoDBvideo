@@ -1,0 +1,164 @@
+h1{
+    font-size: 2em;
+    text-align: center;
+}
+h2{
+    text-align: center;
+}
+
+
+#create_course{
+    text-align: center;
+    border-style: solid;
+    padding: 1% 5% 1% 5%;
+}
+
+#create_course:hover{
+    cursor: pointer;
+}
+
+#form_course_name{
+    width: 40%;
+    margin-top: 20px;
+    background-color:#f2f3f5;
+    padding: 1px 1% 1% 1%;
+    display: inline-block;
+}
+#new_course{
+    text-align: center;
+}
+
+.form_input{
+    margin-top: 10px;
+    font-size: 1.2em;
+    padding: 1% 1% 1% 1%;
+}
+
+
+.form_button{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-top: 10px;
+    font-size: 1.5em;
+    width: 20%;
+    height: 15%;
+    text-shadow: 0 0 black;
+    margin: 3% 1% 1% 1%;
+    background-color: #017595;
+    color: white;
+    border-radius: 5px;
+}
+
+.display_none{
+    display: none !important;
+}
+
+.dcell{
+    margin-top: 25px;
+    color:  #007791;
+    font-family:"Open Sans";
+    font-size: 1.3em;
+}
+
+.course_name_label{
+    text-align: left;
+    display:inline-block;
+    width: 350px;
+    border-style: solid;
+    border-color: #007791;
+    margin-top: 15px;
+    padding: 5px 3px 5px 3px;
+}
+
+.course_name_label:hover{
+    cursor: pointer;
+}
+
+
+.fa .fa-pencil{
+    float: right;
+}
+
+.in_label_course_name{
+    width: 200px;
+}
+
+.span_button{
+    float: right;
+    margin-right: 10px;
+}
+
+
+#courses{
+    display: inline-table;
+ width: 30%;
+}
+
+#edit_course{
+    margin-top: 50px;
+    text-align: center;
+    width: 50%;
+    display: inline-table;
+    border-style: solid;
+    border-color: rgb(80, 87, 99);
+}
+#course_name_edit_course{
+    display: inline-block;
+    margin: 3% 3% 3% 3%;
+    border-color: #ec5252;
+    width: 60%;
+    border-style: solid;
+    text-align: left;
+}
+
+#course_name_edit_course p{
+    color:#ec5252;
+    font-family: "Open Sans";
+    font-size: 1.3em;
+    text-align: left;
+    display: inline-block;
+    width: 350px;
+    margin-top: 15px;
+    padding: 5px 3px 5px 8px;
+}
+
+.edit_course_btn{
+    color: #ec5252;
+    font-family: "Open Sans";
+    font-size: 1.3em;
+    text-align: left;
+    display: inline-block;
+    width: 350px;
+    margin-top: 15px;
+    padding: 5px 3px 5px 8px;
+}
+.edit_course_subject{
+    display: inline-block;
+    width: 60%;
+    background-color: #f2f3f5;
+    border: 1px solid #cacbcc;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color:  #007791;
+    font-family:"Open Sans";
+    font-size: 1.3em;
+}
+
+.subject_name_label{
+    color: #505763;
+    font-family: "Open Sans";
+    font-size: 1.3em;
+    text-align: left;
+    display: inline-block;
+    width: 350px;
+    margin-top: 15px;
+    padding: 3px 3px 5px 8px;
+}
+
+#subjects{
+    padding-bottom: 50px;
+}
+
+.smbutton{
+    font-size: 1em;
+}

@@ -108,7 +108,6 @@ exports.get_subject = function(req, res) {
             res.send(err);
         }
         else {
-            console.log(doc);
             var subject =  doc.subjects.id(req.params.subjectId) ;
             res.json(subject);
         }
@@ -338,15 +337,62 @@ exports.delete_marker = function(req, res) {
 
 
 exports.upload_files = function(req, res) {
+    //upload the file with the request
     upload(req, res, function (err) {
         if (err) {
             // An error occurred when uploading
             res.send(err);
         }
         else{
-            var links = storage.upload_video(req.file.filename,req.file.originalname);
-            res.status(201).send(links);
+                storage.upload_video(req.file.filename,req.file.originalname,function (err , data) {
+                    console.log("I am back at the controller");
+                    res.status(201).send(data);
+                });
         }
     });
 
 }
+
+exports.upload_lesson_files = function(req, res) {
+    upload(req, res, function (err) {
+        if (err) {
+            // An error occurred when uploading
+            res.send(err);
+        }
+        else{
+            storage.upload_video(req.file.filename,req.file.originalname,function (err , data) {
+                Video.findById({_id: req.params.courseId}, function (err, doc) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    else {
+                        var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+                        //put here all the updates
+                        lesson.link  = data.link;
+                        lesson.markers = data.markers;
+                        doc.save().then(function(course) {
+                            storage.save_lesson_video(req,data,function (err) {
+                                if (err) {
+                                    // An error occurred when uploading
+                                    res.send(err);
+                                }
+                                else{
+                                    console.log(" I finish the process");
+                                    res.send(data);
+                                }
+                            })
+                        }).catch(function(err) {
+                            console.log(err);
+                            res.status(500).send(err);
+                        });
+                    }
+                });
+                //console.log("I am back at the controller");
+                //storage.delete_files("original_name","middle_name","current_name");
+                //res.status(201).send(data);
+            });
+        }
+    });
+
+}
+

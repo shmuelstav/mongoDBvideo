@@ -2,6 +2,7 @@
  * Created by shmuel on 11/20/2017.
  */
 'use strict';
+
 module.exports = function(app) {
     var video = require('../controllers/videoController');
     /*****************************************************\
@@ -72,4 +73,9 @@ module.exports = function(app) {
 
     app.route('/files')
         .post(video.upload_files)
+
+    app.route('/courses/subjects/lessons/:courseId/:subjectId/:lessonId/files')
+        .post(video.upload_lesson_files)
+
 };
+

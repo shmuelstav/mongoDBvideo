@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Title</title>
+</head>
+<body>
+<div id="begin_process">
+   <h1>  ברוך הבא</h1>
+   <h2>
+       <span id="create_course" onclick="remove_css_class('#form_course_name','display_none')"> create course</span>
+   </h2>
+  <div id="new_course">
+      <form class="display_none" id=form_course_name>
+           <input id="course_name_input" class="form_input" type="text" name="course_name" placeholder="course name"><br>
+          <input class="form_button" type="button" value="cancel" onclick="add_css_class('#form_course_name','display_none')">
+          <input class="form_button" type="button" value="save" onclick="send_course()">
+      </form>
+  </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>
+<script src="js/page_content.js"></script>
+</html>
+

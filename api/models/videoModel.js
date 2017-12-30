@@ -7,13 +7,15 @@ var Schema = mongoose.Schema;
 
 var MarkerSchema = new Schema({
     date:{type: Date,default: Date.now},
-    name:{type: String}
+    name:{type: String},
+    link:{type: String}
 })
 
 var LessonSchema = new Schema({
     date:{type: Date,default: Date.now},
     name:{type: String},
-    markers:[MarkerSchema]
+    markers:[MarkerSchema],
+    link:{type: String}
 })
 
 
