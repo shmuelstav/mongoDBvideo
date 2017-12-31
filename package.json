@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "nodemon server.js"
+    "start": "server.js"
   },
   "author": "shmuelstav",
   "license": "ISC",
