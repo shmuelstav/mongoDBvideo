@@ -109,14 +109,34 @@ function update_course_view(){
      *
      ***********************************************************************************************************/
 
+    /***************************************************************
+     *                edit course name
+     ****************************************************************/
+
     $( "#edit_course" ).empty();
     var add_icons = "<span  id=\""+appData.currentcourse._id+"\" class=\"span_button\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i></span><span class= \"span_button\"><i  class=\"fa fa-trash-o\""+"aria-hidden=\"true\"></i></span>";
     $( "#edit_course" ).prepend( "<div id='course_name_edit_course'><p id='edit_course_p'>course:  "+appData.currentcourse.Course_name+" "+add_icons+" </p></div><div id='subjects'></div>");
     var html = '';
+
+    /***************************************************************
+     *                edit subjects
+     ****************************************************************/
+
+
+
     $.each(appData.currentcourse.subjects, function(key, value){
+        console.log("key: "+ key);
+        console.log("value: "+ value);
         html += '<div class="edit_course_subject" id=\"'+value._id+'">';
         html += '<label class="subject_name_label"><span> subject: </span><label class=\"subject_edit_val\">'+value.name+'<span '+' class="span_button"><i class="fa fa-pencil" aria-hidden="true"></span></i><span ' +'  class="span_button"><i  class='+'"fa fa-trash-o"'+' aria-hidden="true"></i></span></label></label>';
         html += '</div>';
+        var lesson_template ="";
+        $.each(value.lessons, function(key, value){
+            lesson_template += '<div class="edit_course_lesson" id="value._id">';
+            lesson_template +='<label class="lesson_name_label"><span> lesson: </span><label class=\"lesson_edit_val\">'+value.name+'<span '+' class="span_button"><i class="fa fa-pencil" aria-hidden="true"></span></i><span ' +'  class="span_button"><i  class='+'"fa fa-trash-o"'+' aria-hidden="true"></i></span></label></label>';
+            lesson_template +='</div>';
+        })
+        html += lesson_template;
     });
 
 

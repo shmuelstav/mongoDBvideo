@@ -1,6 +1,8 @@
 var express = require('express'),
     app = express(),
-    port = process.env.PORT || 2900,
+    port = process.env.PORT || 3000
+
+    ,
     mongoose = require('mongoose'),
     Task = require('./api/models/todolistModel'),
     Video = require('./api/models/videoModel'),
