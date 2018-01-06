@@ -75,8 +75,10 @@ var storage_data = {
               break;
 
           case "mp4":
+              ;
               lesson_data.lesson.link = original_name;
-              return (lesson_data);
+              console.log("link name: "+lesson_data.lesson.link )
+                return callback(null,lesson_data);
               break;
           default:
               console.log("wrong file upload");
@@ -151,6 +153,16 @@ function ensureExists(path,data,cb) {
         async.each(data.lesson.markers, function (marker, cb) {
             mv(storage_data.unzip_folder + data.folder_name + "/" + marker.link, path + marker.link, {mkdirp: true}, function (err) {
                 if (err) {
+                    mv(storage_data.upload_folder + data.folder_name + "/" + marker.link, path + marker.link, {mkdirp: true}, function (err) {
+                        if (err) {
+                            console.log("storage fails");
+                            return cb(err);
+                        }
+                        else{
+                            console.log("storage succeed");
+                            return cb(new Error("dfhfhfghfg"));
+                        }
+                    })
                     console.log("storage fails");
                     return cb(err);
                 }
@@ -190,8 +202,17 @@ function ensureExists(path,data,cb) {
     else{
         mv(storage_data.unzip_folder+data.folder_name+"/"+data.lesson.link, path+data.lesson.link, {mkdirp: true}, function(err) {
             if (err){
-                console.log("storage fails");
-                return cb(err);
+                console.log("mp4 storage fails");
+                mv(storage_data.upload_folder+data.folder_name+"/"+data.lesson.link, path+data.lesson.link, {mkdirp: true}, function(err) {
+                    if (err) {
+                        console.log("second storage fails");
+                        return cb(err);
+                    }
+                    else{
+                        console.log("storage succeed");
+                        return cb(null);
+                    }
+                })
             }
             else{
                 console.log("storage succedd");

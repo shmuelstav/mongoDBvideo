@@ -189,9 +189,15 @@ exports.get_lesson = function(req, res) {
             res.send(err);
         }
         else {
-            console.log(doc);
-            var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
-            res.json(lesson);
+            try{
+                console.log(doc);
+                var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+                res.json(lesson);
+            }
+            catch (err){
+                res.send(err);
+             }
+
         }
     });
 };
@@ -202,9 +208,15 @@ exports.update_lesson = function(req, res) {
             res.send(err);
         }
         else {
-            var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
-            //put here all the updates
-            lesson.name  = (req.body.name);
+            try{
+                var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
+                lesson.name  = (req.body.name);
+                //put here all the updates
+            }
+            catch(err) {
+                res.send(err);
+            }
+
             doc.save().then(function(course) {
                 res.send(lesson);
             }).catch(function(err) {
@@ -356,42 +368,54 @@ exports.upload_files = function(req, res) {
 exports.upload_lesson_files = function(req, res) {
     upload(req, res, function (err) {
         if (err) {
+            console.log("upload err");
             // An error occurred when uploading
             res.send(err);
         }
-        else{
-            storage.upload_video(req.file.filename,req.file.originalname,function (err , data) {
-                Video.findById({_id: req.params.courseId}, function (err, doc) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    else {
-                        var lesson =  doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId) ;
-                        //put here all the updates
-                        lesson.link  = data.link;
-                        lesson.markers = data.markers;
-                        doc.save().then(function(course) {
-                            storage.save_lesson_video(req,data,function (err) {
-                                if (err) {
-                                    // An error occurred when uploading
-                                    res.send(err);
-                                }
-                                else{
-                                    console.log(" I finish the process");
-                                    res.send(data);
-                                }
-                            })
-                        }).catch(function(err) {
-                            console.log(err);
-                            res.status(500).send(err);
-                        });
-                    }
+        else {
+            try {
+                console.log("start upload");
+                console.log(req.file.filename);
+                storage.upload_video(req.file.filename, req.file.originalname, function (err, data) {
+                    console.log("continue upload");
+                    Video.findById({_id: req.params.courseId}, function (err, doc) {
+                        if (err) {
+                            res.send(err);
+                        }
+                        else {
+                            var lesson = doc.subjects.id(req.params.subjectId).lessons.id(req.params.lessonId);
+
+                            lesson.link = data.lesson.link;
+                            lesson.markers = data.lesson.markers;
+                            doc.save().then(function (course) {
+                                storage.save_lesson_video(req, data, function (err) {
+                                    if (err) {
+                                        // An error occurred when uploading
+                                        res.send(err);
+                                    }
+                                    else {
+                                        console.log(" I finish the process");
+                                        res.send(data);
+                                    }
+                                })
+                            }).catch(function (err) {
+                                console.log(err);
+                                res.status(500).send(err);
+                            });
+                        }
+                    });
+                    //console.log("I am back at the controller");
+                    //storage.delete_files("original_name","middle_name","current_name");
+                    //res.status(201).send(data);
                 });
-                //console.log("I am back at the controller");
-                //storage.delete_files("original_name","middle_name","current_name");
-                //res.status(201).send(data);
-            });
-        }
+            }
+            catch (err){
+                res.send(err);
+            }
+         }
+
+
+
     });
 
 }

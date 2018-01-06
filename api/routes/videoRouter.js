@@ -76,6 +76,5 @@ module.exports = function(app) {
 
     app.route('/courses/subjects/lessons/:courseId/:subjectId/:lessonId/files')
         .post(video.upload_lesson_files)
-
 };
 

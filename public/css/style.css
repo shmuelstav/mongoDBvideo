@@ -162,3 +162,39 @@ h2{
 .smbutton{
     font-size: 1em;
 }
+
+.edit_course_lesson{
+    background-color: white;
+    display: inline-block;
+    width: 90%;
+    font-size: 1em;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-style: solid;
+    margin-bottom: 10px;
+}
+
+.edit_course_lesson .span_button .fa-pencil {
+    float:none;
+    margin-left: 5px;
+}
+
+.add_mp4{
+    display: inline-block;
+    width: 80%;
+    border-style: solid;
+    padding-top: 5px;
+    padding-bottom:5px;
+    font-size:1.2em;
+}
+
+.add_mp4 input{
+    font-size: 0.7em;
+    text-align: center !important;
+    margin-left: 8px;
+}
+
+.mp4_video{
+    color: black;
+    font-size: 0.8em;
+}
